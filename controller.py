@@ -61,16 +61,29 @@ class EnigmaMachine:
     def encrypt(self, text):
         txt = ""
         for i in text:
-            if i not in self.alphabet:
+            chr = str(i)
+            isUpper = str(chr).isupper()
+
+            if isUpper:
+                chr = str(chr).lower()
+
+            if chr not in self.alphabet:
                 txt = txt + i
                 continue
-
-            txt = txt + self._getEncryptChar(i)
+            
+            if isUpper:
+                txt = txt + str(self._getEncryptChar(chr)).upper()
+            else:
+                txt = txt + str(self._getEncryptChar(chr))
 
         return txt
     
     def _getEncryptChar(self, chr):
         temp = self.rotorA.getDataByStrPattern(f"{chr}:")
+        temp = str(temp).split(":")[-1]
+        temp = self.rotorB.getDataByStrPattern(f"{temp}:")
+        temp = str(temp).split(":")[-1]
+        temp = self.rotorC.getDataByStrPattern(f"{temp}:")
         temp = str(temp).split(":")[-1]
 
         return temp
