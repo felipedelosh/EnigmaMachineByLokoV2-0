@@ -24,4 +24,5 @@ print(f"Rotor B DATA: {enigma.rotorB.converDataInArray()}")
 print(f"Rotor C DATA: {enigma.rotorC.converDataInArray()}")
 text = "Hola Mundo Yo Soy Molotov y este es mi texto encriptado... desde el 2025 :)"
 print(f"TEXT:\n{text}")
-print(f"Encrypt:\n{enigma.encrypt(text)}")
+encryptTXT = enigma.encrypt(text)
+print(f"Encrypt:\n{encryptTXT}")
