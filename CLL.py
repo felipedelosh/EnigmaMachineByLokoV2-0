@@ -113,6 +113,20 @@ class CircularLinkedList:
         return _counter
     
 
+    def converDataInArray(self):
+        data = []
+
+        if self.pivot != None:
+            _copy = self.pivot
+            while True:
+                data.append(_copy.data)
+                _copy = _copy.next
+
+                if _copy == self.pivot:
+                    break
+
+        return data
+
     def showAllData(self):
         if self.pivot != None:
             _copy = self.pivot
