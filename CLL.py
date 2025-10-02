@@ -41,7 +41,18 @@ class CircularLinkedList:
 
         return _copy.data
     
+    def getDataByStrPattern(self, ptrn):
+        if self.pivot != None:
+            _copy = self.pivot
+            while True:
+                if ptrn in _copy.data:
+                    return _copy.data
+                _copy = _copy.next
 
+                if _copy == self.pivot:
+                    break
+
+        return None
 
     def isDataInList(self, data):
         if self.pivot == None:

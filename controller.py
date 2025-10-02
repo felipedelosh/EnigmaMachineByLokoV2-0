@@ -61,8 +61,16 @@ class EnigmaMachine:
     def encrypt(self, text):
         txt = ""
         for i in text:
-            if i not in "":
+            if i not in self.alphabet:
+                txt = txt + i
                 continue
 
+            txt = txt + self._getEncryptChar(i)
 
         return txt
+    
+    def _getEncryptChar(self, chr):
+        temp = self.rotorA.getDataByStrPattern(f"{chr}:")
+        temp = str(temp).split(":")[-1]
+
+        return temp
