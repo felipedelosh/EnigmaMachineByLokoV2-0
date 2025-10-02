@@ -10,6 +10,7 @@ from CLL import CircularLinkedList
 class EnigmaMachine:
     def __init__(self, alphabet, secret):
         self.alphabet = alphabet
+        self.rotations = [0, 0, 0]
         self.CLLAlphabet = CircularLinkedList()
         self.rotorA = CircularLinkedList()
         self.rotorB = CircularLinkedList()
@@ -19,18 +20,20 @@ class EnigmaMachine:
     def _initMachine(self, secret):
         for x in self.alphabet:
             self.CLLAlphabet.addData(x)
-        _mixed = self._convertSecretInRotations(secret)
+        self._convertSecretInRotations(secret)
+        self._setRotorConections()
+
+    def _setRotorConections(self):
         _total_chars = self.CLLAlphabet.count()
         for i in range(0, _total_chars):
-            r1_map = f"{self.CLLAlphabet.getData(i)}:{self.CLLAlphabet.getData(i+_mixed[0])}"
+            r1_map = f"{self.CLLAlphabet.getData(i)}:{self.CLLAlphabet.getData(i+self.rotations[0])}"
             self.rotorA.addData(r1_map)
-            r2_map = f"{self.CLLAlphabet.getData(i+_mixed[0])}:{self.CLLAlphabet.getData(i+_mixed[1])}"
+            r2_map = f"{self.CLLAlphabet.getData(i+self.rotations[0])}:{self.CLLAlphabet.getData(i+self.rotations[1])}"
             self.rotorB.addData(r2_map)
-            r3_map = f"{self.CLLAlphabet.getData(i+_mixed[1])}:{self.CLLAlphabet.getData(i+_mixed[2])}"
+            r3_map = f"{self.CLLAlphabet.getData(i+self.rotations[1])}:{self.CLLAlphabet.getData(i+self.rotations[2])}"
             self.rotorC.addData(r3_map)
 
     def _convertSecretInRotations(self, secret):
-        result = [0, 0, 0]
         _total_chars = self.CLLAlphabet.count()
         s = str(secret).lower()
         vals = []
@@ -45,18 +48,15 @@ class EnigmaMachine:
         if vals:
             rotations_a = sum(vals)
             rotations_a = rotations_a%_total_chars
-            result[0] = rotations_a
+            self.rotations[0] = rotations_a
 
             rotations_b = sum([v for i, v in enumerate(vals) if i % 2 == 0])
             rotations_b = rotations_b%_total_chars
-            result[1] = rotations_b
+            self.rotations[1] = rotations_b
 
             rotations_c = sum([v for i, v in enumerate(vals) if i % 2 != 0])
             rotations_c = rotations_c%_total_chars
-            result[2] = rotations_c
-        
-        return result
-    
+            self.rotations[2] = rotations_c
 
     def encrypt(self, text):
         txt = ""
