@@ -11,6 +11,7 @@ class EnigmaMachine:
     def __init__(self, alphabet, secret):
         self.alphabet = alphabet
         self.rotations = [0, 0, 0]
+        self.actuatorBar = [0, 0, 0]
         self.CLLAlphabet = CircularLinkedList()
         self.rotorA = CircularLinkedList()
         self.rotorB = CircularLinkedList()
@@ -24,13 +25,16 @@ class EnigmaMachine:
         self._setRotorConections()
 
     def _setRotorConections(self):
+        self.rotorA.wipeData()
+        self.rotorB.wipeData()
+        self.rotorC.wipeData()
         _total_chars = self.CLLAlphabet.count()
         for i in range(0, _total_chars):
-            r1_map = f"{self.CLLAlphabet.getData(i)}:{self.CLLAlphabet.getData(i+self.rotations[0])}"
+            r1_map = f"{self.CLLAlphabet.getData(i+self.actuatorBar[0])}:{self.CLLAlphabet.getData(i+self.rotations[0]+self.actuatorBar[0])}"
             self.rotorA.addData(r1_map)
-            r2_map = f"{self.CLLAlphabet.getData(i+self.rotations[0])}:{self.CLLAlphabet.getData(i+self.rotations[1])}"
+            r2_map = f"{self.CLLAlphabet.getData(i+self.rotations[0]+self.actuatorBar[1])}:{self.CLLAlphabet.getData(i+self.rotations[1]+self.actuatorBar[1])}"
             self.rotorB.addData(r2_map)
-            r3_map = f"{self.CLLAlphabet.getData(i+self.rotations[1])}:{self.CLLAlphabet.getData(i+self.rotations[2])}"
+            r3_map = f"{self.CLLAlphabet.getData(i+self.rotations[1]+self.actuatorBar[2])}:{self.CLLAlphabet.getData(i+self.rotations[2]+self.actuatorBar[2])}"
             self.rotorC.addData(r3_map)
 
     def _convertSecretInRotations(self, secret):
@@ -75,6 +79,7 @@ class EnigmaMachine:
                 txt = txt + str(self._getEncryptChar(chr)).upper()
             else:
                 txt = txt + str(self._getEncryptChar(chr))
+            self._actionActuatorBar()
 
         return txt
     
@@ -87,3 +92,16 @@ class EnigmaMachine:
         temp = str(temp).split(":")[-1]
 
         return temp
+    
+    def _actionActuatorBar(self):
+        self.actuatorBar[0] = self.actuatorBar[0] + 1
+        if self.actuatorBar[0] >= len(self.alphabet):
+            self.actuatorBar[0] = 0
+            self.actuatorBar[1] = self.actuatorBar[1] + 1
+
+        if self.actuatorBar[1] >= len(self.alphabet):
+            self.actuatorBar[1] = 0
+            self.actuatorBar[2] = self.actuatorBar[2] + 1
+
+        if self.actuatorBar[2] >= len(self.alphabet):
+            self.actuatorBar[2] = 0

@@ -109,6 +109,8 @@ class CircularLinkedList:
                     if _copy.data == data:
                         _previous.next = _copy.next
 
+    def wipeData(self):
+        self.pivot = None
 
     def count(self):
         if self.pivot == None:
