@@ -81,16 +81,16 @@ class EnigmaMachine:
                 txt = txt + str(self._getEncryptChar(chr))
             self._actionActuatorBar()
 
-            print("==================================")
-            print(i, self._getEncryptChar(chr))
-            print(self.actuatorBar)
-            print(self.rotorA.converDataInArray())
-            print(self.rotorB.converDataInArray())
-            print(self.rotorC.converDataInArray())
-
         return txt
     
+    """
+    Error... No Search by map character... search by rotor positions
+    BUG
+    """
     def _getEncryptChar(self, chr):
+        # Convert in array
+        # Serach chr in pos
+        # STEP BY STEP BY POSITION
         temp = self.rotorA.getDataByStrPattern(f"{chr}:")
         temp = str(temp).split(":")[-1]
         temp = self.rotorB.getDataByStrPattern(f"{temp}:")
