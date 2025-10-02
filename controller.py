@@ -9,28 +9,29 @@ from CLL import CircularLinkedList
 
 class EnigmaMachine:
     def __init__(self, alphabet, secret):
-        self.alphabet = CircularLinkedList()
+        self.alphabet = alphabet
+        self.CLLAlphabet = CircularLinkedList()
         self.rotorA = CircularLinkedList()
         self.rotorB = CircularLinkedList()
         self.rotorC = CircularLinkedList()
-        self.initMachine(alphabet, secret)
+        self._initMachine(secret)
         
-    def initMachine(self, alphabet, secret):
-        for x in alphabet:
-            self.alphabet.addData(x)
-        _mixed = self.convertSecretInRotations(secret)
-        _total_chars = self.alphabet.count()
+    def _initMachine(self, secret):
+        for x in self.alphabet:
+            self.CLLAlphabet.addData(x)
+        _mixed = self._convertSecretInRotations(secret)
+        _total_chars = self.CLLAlphabet.count()
         for i in range(0, _total_chars):
-            r1_map = f"{self.alphabet.getData(i)}:{self.alphabet.getData(i+_mixed[0])}"
+            r1_map = f"{self.CLLAlphabet.getData(i)}:{self.CLLAlphabet.getData(i+_mixed[0])}"
             self.rotorA.addData(r1_map)
-            r2_map = f"{self.alphabet.getData(i+_mixed[0])}:{self.alphabet.getData(i+_mixed[1])}"
+            r2_map = f"{self.CLLAlphabet.getData(i+_mixed[0])}:{self.CLLAlphabet.getData(i+_mixed[1])}"
             self.rotorB.addData(r2_map)
-            r3_map = f"{self.alphabet.getData(i+_mixed[1])}:{self.alphabet.getData(i+_mixed[2])}"
+            r3_map = f"{self.CLLAlphabet.getData(i+_mixed[1])}:{self.CLLAlphabet.getData(i+_mixed[2])}"
             self.rotorC.addData(r3_map)
 
-    def convertSecretInRotations(self, secret):
+    def _convertSecretInRotations(self, secret):
         result = [0, 0, 0]
-        _total_chars = self.alphabet.count()
+        _total_chars = self.CLLAlphabet.count()
         s = str(secret).lower()
         vals = []
         first_seen = {}
@@ -55,3 +56,13 @@ class EnigmaMachine:
             result[2] = rotations_c
         
         return result
+    
+
+    def encrypt(self, text):
+        txt = ""
+        for i in text:
+            if i not in "":
+                continue
+
+
+        return txt
