@@ -30,11 +30,11 @@ class EnigmaMachine:
         self.rotorC.wipeData()
         _total_chars = self.CLLAlphabet.count()
         for i in range(0, _total_chars):
-            r1_map = f"{self.CLLAlphabet.getData(i+self.actuatorBar[0])}:{self.CLLAlphabet.getData(i+self.rotations[0]+self.actuatorBar[0])}"
+            r1_map = f"{self.CLLAlphabet.getData(i)}:{self.CLLAlphabet.getData(i+self.rotations[0])}"
             self.rotorA.addData(r1_map)
-            r2_map = f"{self.CLLAlphabet.getData(i+self.rotations[0]+self.actuatorBar[1])}:{self.CLLAlphabet.getData(i+self.rotations[1]+self.actuatorBar[1])}"
+            r2_map = f"{self.CLLAlphabet.getData(i+self.rotations[0])}:{self.CLLAlphabet.getData(i+self.rotations[1])}"
             self.rotorB.addData(r2_map)
-            r3_map = f"{self.CLLAlphabet.getData(i+self.rotations[1]+self.actuatorBar[2])}:{self.CLLAlphabet.getData(i+self.rotations[2]+self.actuatorBar[2])}"
+            r3_map = f"{self.CLLAlphabet.getData(i+self.rotations[1])}:{self.CLLAlphabet.getData(i+self.rotations[2])}"
             self.rotorC.addData(r3_map)
 
     def _convertSecretInRotations(self, secret):
@@ -80,6 +80,13 @@ class EnigmaMachine:
             else:
                 txt = txt + str(self._getEncryptChar(chr))
             self._actionActuatorBar()
+
+            print("==================================")
+            print(i, self._getEncryptChar(chr))
+            print(self.actuatorBar)
+            print(self.rotorA.converDataInArray())
+            print(self.rotorB.converDataInArray())
+            print(self.rotorC.converDataInArray())
 
         return txt
     
