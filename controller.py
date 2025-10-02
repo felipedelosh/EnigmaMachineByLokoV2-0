@@ -9,11 +9,12 @@ from CLL import CircularLinkedList
 
 class EnigmaMachine:
     def __init__(self, alphabet):
-        self.alphabet = CircularLinkedList(x for x in alphabet)
-        self.rotorA = None
-        self.rotorB = None
-        self.rotorC = None
+        self.alphabet = CircularLinkedList()
+        self.rotorA = CircularLinkedList()
+        self.rotorB = CircularLinkedList()
+        self.rotorC = CircularLinkedList()
+        self.initMachine(alphabet)
         
-
-    def initRotors(self):
-        pass
+    def initMachine(self, alphabet):
+        for x in alphabet:
+            self.alphabet.addData(x)
