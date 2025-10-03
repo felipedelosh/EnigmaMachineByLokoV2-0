@@ -76,21 +76,17 @@ class EnigmaMachine:
                 continue
             
             if isUpper:
-                txt = txt + str(self._getEncryptChar(chr)).upper()
+                txt = txt + str(self._processChr(chr)).upper()
             else:
-                txt = txt + str(self._getEncryptChar(chr))
+                txt = txt + str(self._processChr(chr))
             self._actionActuatorBar()
 
         return txt
     
     """
-    Error... No Search by map character... search by rotor positions
-    BUG
+    Deprecated
     """
     def _getEncryptChar(self, chr):
-        # Convert in array
-        # Serach chr in pos
-        # STEP BY STEP BY POSITION
         temp = self.rotorA.getDataByStrPattern(f"{chr}:")
         temp = str(temp).split(":")[-1]
         temp = self.rotorB.getDataByStrPattern(f"{temp}:")
@@ -100,6 +96,25 @@ class EnigmaMachine:
 
         return temp
     
+
+    def _processChr(self, chr):
+        rotor_a_arr = self.rotorA.converDataInArray()
+
+        _chr_pos = 0
+        for itterChrA in rotor_a_arr:
+            if f"{chr}:" in itterChrA:
+                break
+            _chr_pos = _chr_pos + 1
+
+        temp = self.rotorA.getData(_chr_pos)
+        temp = str(temp).split(":")[-1]
+        temp = self.rotorB.getData(_chr_pos)
+        temp = str(temp).split(":")[-1]
+        temp = self.rotorC.getData(_chr_pos)
+        temp = str(temp).split(":")[-1]
+
+        return temp
+
     def _actionActuatorBar(self):
         self.actuatorBar[0] = self.actuatorBar[0] + 1
         if self.actuatorBar[0] >= len(self.alphabet):
